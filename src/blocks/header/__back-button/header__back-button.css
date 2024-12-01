@@ -1,0 +1,7 @@
+.header__back-button {
+    all: unset;
+    width: 39px;
+    height: 39px;
+    align-self: center;
+    padding-right: 46px;
+}

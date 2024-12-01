@@ -1,0 +1,5 @@
+.cards {
+    display: grid;
+    row-gap: 72px;
+    align-self: center;
+}

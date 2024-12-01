@@ -1,0 +1,12 @@
+.content {
+    max-width: 100%;
+    margin: 74px 59px 88px 86px;
+    display: flex;
+    justify-content:space-between;
+}
+
+/* @media screen and (max-width: 1280px) {
+    .content {
+        flex-direction: column;
+    }
+} */

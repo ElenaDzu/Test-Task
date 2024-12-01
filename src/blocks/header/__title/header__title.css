@@ -1,0 +1,10 @@
+.header__title {
+    margin: 0;
+    padding-left: 38px;
+    align-self: center;
+    font-family: 'Aeroport', sans-serif;
+    font-size: 48px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+}

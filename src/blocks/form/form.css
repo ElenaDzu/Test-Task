@@ -1,0 +1,16 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 30.95%;
+    max-height: 100%;
+    background: linear-gradient(180deg, #E9F2F3 0%, #A6C5E3 100%);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 22.6px;
+    line-height: 32.49px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 74px 59px 47px 0;
+    padding: 106px 47px 49px 50px;
+    border-radius: 24px;
+}

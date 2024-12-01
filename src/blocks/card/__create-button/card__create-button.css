@@ -1,0 +1,10 @@
+.card__create-button {
+    all: unset;
+    align-self: flex-end;
+    justify-self: right;
+    font-size: 38.5px;
+    margin: 0;
+    margin-right: 32px;
+    margin-bottom: 32px;
+    color:rgba(0, 0, 0, 0.6);
+}
