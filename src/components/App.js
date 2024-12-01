@@ -4,7 +4,7 @@ import Header from "./Header.js";
 import Main from "./Main.js";
 
 const initialProfile = {
-  avatar: "",
+  avatar: "", // Аватар хранится отдельно
   name: "",
   surname: "",
   jobTitle: "",
@@ -12,20 +12,18 @@ const initialProfile = {
   address: "",
   email: "",
   pitch: "",
-  interest: "",
-  potentialInterest: "",
-  siteName: "",
-  url: "",
-  visibility: "Private",
+  interests: [],
+  visibility: "Private", // Значение по умолчанию
 };
 
 const App = () => {
-  const [profile, setProfile] = useState(initialProfile);
-  const [tempProfile, setTempProfile] = useState(initialProfile);
-  const [previousProfile, setPreviousProfile] = useState(initialProfile);
-  const [avatarPreview, setAvatarPreview] = useState("");
+  const [profile, setProfile] = useState(initialProfile); // Текущий профиль
+  const [tempProfile, setTempProfile] = useState(initialProfile); // Временный профиль
+  const [previousProfile, setPreviousProfile] = useState(initialProfile); // Последний сохранённый профиль
+  const [avatarPreview, setAvatarPreview] = useState(""); // Превью аватара
   const [errorMessages, setErrorMessages] = useState({});
 
+  // Загружаем профиль и аватар из localStorage при монтировании
   useEffect(() => {
     const savedProfile = JSON.parse(localStorage.getItem("profile")) || initialProfile;
     const savedAvatar = localStorage.getItem("avatar") || "";
@@ -33,56 +31,62 @@ const App = () => {
     setProfile(savedProfile);
     setTempProfile({ ...savedProfile, avatar: savedAvatar });
     setPreviousProfile(savedProfile);
-    setAvatarPreview(savedAvatar);
+    setAvatarPreview(savedAvatar); // Загружаем аватар
   }, []);
 
+  // Сохранение профиля
   const saveProfile = () => {
     if (Object.keys(errorMessages).length > 0) {
-      console.error("Cannot save profile due to errors:", errorMessages);
+      // console.error("Невозможно сохранить профиль из-за ошибок:", errorMessages);
       return;
     }
 
     try {
+      // console.log("Сохраняем профиль:", tempProfile);
+
+      // Сохраняем аватар отдельно
+      localStorage.setItem("avatar", tempProfile.avatar);
+
+      // Сохраняем профиль без аватара
       const profileToSave = { ...tempProfile };
-
-      // Удаляем siteName и url, если они пустые
-      if (!profileToSave.siteName && !profileToSave.url) {
-        profileToSave.siteName = "";
-        profileToSave.url = "";
-      }
-
+      delete profileToSave.avatar;
       localStorage.setItem("profile", JSON.stringify(profileToSave));
-      localStorage.setItem("avatar", profileToSave.avatar);
 
-      setProfile(profileToSave);
-      setPreviousProfile(profileToSave);
-      console.log("Profile saved:", profileToSave);
+      // Сохраняем текущее состояние профиля в previousProfile
+      setPreviousProfile(profile);
+
+      setProfile(tempProfile);
+      // console.log("Профиль сохранён:", profileToSave);
     } catch (error) {
-      console.error("Error saving profile:", error.message);
+      // console.error("Ошибка сохранения профиля:", error.message);
     }
   };
 
+  // Отмена последних сохранений
   const cancelChanges = () => {
+    // console.log("Current profile:", profile);
+    // console.log("Restoring to previous profile:", previousProfile);
+
     if (JSON.stringify(profile) === JSON.stringify(previousProfile)) {
-      console.log("No changes to cancel.");
+      // console.log("No changes detected in saved profile. Nothing to cancel.");
       return;
     }
 
-    const restoredAvatar = localStorage.getItem("avatar") || "";
+    // Восстанавливаем последнее сохранённое состояние
+    const restoredAvatar = localStorage.getItem("avatar") || ""; // Восстанавливаем аватар
     setProfile(previousProfile);
     setTempProfile({ ...previousProfile, avatar: restoredAvatar });
     setAvatarPreview(restoredAvatar);
     setErrorMessages({});
-    console.log("Changes canceled. Profile restored:", previousProfile);
+    // console.log("Изменения отменены. Восстановлен профиль:", previousProfile);
   };
 
+  // Обработка изменения полей
   const handleChange = (field, value, element = null) => {
-    console.log(`Field "${field}" updated to:`, value);
-
     if (element) {
       const validity = element.validity || { valid: true };
+  
       let customMessage = "";
-
       if (validity.valueMissing) {
         customMessage = "This field is required.";
       } else if (validity.tooShort) {
@@ -94,7 +98,7 @@ const App = () => {
       } else if (validity.typeMismatch) {
         customMessage = "Please enter a valid value.";
       }
-
+  
       if (!validity.valid) {
         setErrorMessages((prev) => ({
           ...prev,
@@ -107,20 +111,29 @@ const App = () => {
         });
       }
     }
-
+  
+    // Обновляем tempProfile
     setTempProfile((prev) => ({ ...prev, [field]: value }));
+    console.log("Updated tempProfile:", tempProfile);
+    console.log("Updated errorMessages:", errorMessages);
   };
+  
+  
+  
 
+  // Обработка загрузки аватара
   const handleAvatarUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Image = reader.result;
-        setAvatarPreview(base64Image);
+        const base64Image = reader.result; // Конвертируем изображение в Base64
+        setAvatarPreview(base64Image); // Устанавливаем превью
         handleChange("avatar", base64Image);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // Конвертация в Base64
+    } else {
+      // console.error("Файл не является изображением или отсутствует");
     }
   };
 
@@ -131,7 +144,10 @@ const App = () => {
         <Main
           profile={tempProfile}
           avatarPreview={avatarPreview}
-          onChange={(field, value, element) => handleChange(field, value, element)}
+          onChange={(field, value, element) => {
+            console.log("onChange вызван в App:", { field, value, element });
+            handleChange(field, value, element);
+          }}
           onAvatarUpload={handleAvatarUpload}
           onSave={saveProfile}
           onCancel={cancelChanges}

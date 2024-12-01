@@ -4,22 +4,23 @@ import TagOfInterests from "./TagOfInterests";
 function Preference({ profile, onChange }) {
   return (
     <>
-<Preference
-  profile={profile}
-  onChange={(field, value) => onChange(field, value)}
-/>
-<TagOfInterests
-  p="Your interests"
-  profile={profile}
-  onChange={(field, value) => onChange(field, value)}
-/>
-<TagOfInterests
-  p="Your links:"
-  profile={profile}
-  onChange={(field, value) => onChange(field, value)}
-/>
+      <TagOfInterests
+        p="The scopes of your interest:"
+        selectedTags={profile}
+        onChange={onChange}
+      />
+      <TagOfInterests
+        p="Potential interests:"
+        selectedTags={profile} // Добавляем новое состояние
+        onChange={onChange}
+      />
+      <TagOfInterests
+        p="Your links:"
+        selectedTags={profile} // Добавляем новое состояние
+        onChange={onChange}
+      />
     </>
   );
 }
 
-export default Preference;
+export default Preference; 

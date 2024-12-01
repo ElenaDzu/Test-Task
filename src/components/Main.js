@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 import Card from "./Card.js";
 import Input from "./Input.js";
 import Avatar from "./Avatar.js";
-import Preference from "./Preference.js";
+import Preference from "./Preference";
 import OutcomeButton from "./OutcomeButton.js";
 import Checkbox from "./Checkbox.js";
+
 
 const Main = ({
   profile,
@@ -15,6 +16,7 @@ const Main = ({
   onCancel,
   errorMessages,
 }) => {
+
   return (
     <>
       <main className="content">
@@ -29,7 +31,7 @@ const Main = ({
               defaultValue={profile.visibility}
               onChange={(field, value, element) => {
                 console.log("Visibility updated in Main:", { field, value, element });
-                onChange(field, value, element);
+                onChange(field, value, element); // Передаём element в App
               }}
             />
             <Preference profile={profile} onChange={onChange} />
