@@ -1,10 +1,11 @@
 .form__user-preference {
-    display: flex;
+    display: flex;  
 }
 
 .form__interest-block {
     display: flex;
     flex-wrap: wrap;
+
 }
 
 .form__label-preference {
@@ -58,6 +59,7 @@
 }
 
 .form__tag-input {
+  display: block;
     all: unset;
     display: flex;
     margin: 0 auto;
