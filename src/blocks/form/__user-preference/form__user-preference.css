@@ -1,5 +1,9 @@
 .form__user-preference {
-    display: flex;  
+  display: flex;
+  flex-direction: row; /* Элементы на одной строке */
+  align-items: center; /* Вертикальное выравнивание */
+  justify-content: space-between; /* Равномерное распределение заголовка и кнопки */
+  margin-bottom: 10px;
 }
 
 .form__interest-block {
@@ -26,7 +30,7 @@
     height: 32px;
     display: flex;
     justify-content: center;
-    align-self: center;
+    align-self: flex-start;
     margin-left: 8px;
     font-size: 38px;
     cursor: pointer;
@@ -46,37 +50,22 @@
     color: rgba(73, 83, 92, 1);
     background-color: transparent;
   } 
-
-  /* .form__user-preference:last-child  .form__interest-block{
-    display: flex;
-    flex-direction: column;
-  } */
-
-  /* .form__user-preference:last-of-type  .form__interest-block .form__tag-input::placeholder{
-    font-family: Roboto;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 32.49px;    
-    text-align: left;
-    color: rgba(73, 83, 92, 1);
-  } */
   
   .form__links-container {
     display: flex;
     flex-direction: column; /* Элементы располагаются вертикально */
-    gap: 10px; /* Отступ между элементами */
+    gap: 10px; 
   }
   
   .form__link-item {
     display: flex;
     align-items: center;
-    gap: 10px; /* Отступ между инпутами и кнопкой удаления */
+    gap: 10px;
   }
   
   .form__link-name,
   .form__link-url {
-    flex: 1; /* Равная ширина для полей ввода */
-    padding: 5px;
+    flex: 1; 
     border: 1px solid #ccc;
     border-radius: 4px;
   }
@@ -100,3 +89,8 @@
     align-items: center;
   }
   
+  
+  .form__addtag-button:disabled {
+    color: gray;
+    cursor: not-allowed;
+  }

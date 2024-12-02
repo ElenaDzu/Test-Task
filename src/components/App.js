@@ -104,35 +104,29 @@ const App = () => {
   const handlePreferenceAction = (action, category, key, value) => {
     setTempProfile((prev) => {
       const categoryData = prev[category] || {};
+
       switch (action) {
-        case "add":
-          const keys = Object.keys(categoryData);
-          if (keys.length < 13) {
-            const newKey = `${category}-${keys.length + 1}`;
-            return {
-              ...prev,
-              [category]: {
-                ...categoryData,
-                [newKey]: "",
-              },
-            };
+        case "add": {
+          // Проверяем, есть ли пустой тег
+          const hasEmptyTag = Object.values(categoryData).some((val) => val.trim() === "");
+          if (hasEmptyTag) {
+            console.warn("Cannot add a new tag while there is an empty tag.");
+            return prev; // Запрещаем добавление нового тега
           }
-          console.warn(`Cannot add more tags to ${category}`);
-          return prev;
+
+          const keys = Object.keys(categoryData);
+          const newKey = `${category}-${keys.length + 1}`;
+          return {
+            ...prev,
+            [category]: { ...categoryData, [newKey]: "" }, // Добавляем пустой тег
+          };
+        }
         case "edit":
-          return {
-            ...prev,
-            [category]: {
-              ...categoryData,
-              [key]: value,
-            },
-          };
-        case "remove":
+          return { ...prev, [category]: { ...categoryData, [key]: value } };
+        case "remove": {
           const { [key]: _, ...remainingTags } = categoryData;
-          return {
-            ...prev,
-            [category]: remainingTags,
-          };
+          return { ...prev, [category]: remainingTags };
+        }
         default:
           console.error(`Unknown action: ${action}`);
           return prev;
@@ -141,13 +135,38 @@ const App = () => {
   };
 
   const handleSave = () => {
-    if (Object.keys(errorMessages).length > 0) {
-      console.error("Cannot save due to validation errors:", errorMessages);
-      return;
+    // Проверяем, есть ли пустые теги
+    const hasEmptyTags = Object.keys(tempProfile).some((category) => {
+      const data = tempProfile[category];
+      if (typeof data === "object") {
+        return Object.values(data).some((value) => value.trim() === "");
+      }
+      return false;
+    });
+
+    if (hasEmptyTags) {
+      console.error("Cannot save: there are empty tags.");
+      alert("Please fill in all tags or remove empty ones before saving."); // Показываем пользователю предупреждение
+      return; // Прерываем сохранение
     }
+
+    // Очищаем пустые теги перед сохранением
+    const cleanedProfile = { ...tempProfile };
+    Object.keys(cleanedProfile).forEach((category) => {
+      if (typeof cleanedProfile[category] === "object") {
+        const cleanedCategory = {};
+        Object.keys(cleanedProfile[category]).forEach((key) => {
+          if (cleanedProfile[category][key].trim() !== "") {
+            cleanedCategory[key] = cleanedProfile[category][key];
+          }
+        });
+        cleanedProfile[category] = cleanedCategory;
+      }
+    });
+
     setPrevProfile(profile); // Сохраняем текущее состояние перед сохранением
-    setProfile(tempProfile);
-    setAvatarPreview(tempProfile.avatar);
+    setProfile(cleanedProfile); // Сохраняем очищенный профиль
+    setAvatarPreview(cleanedProfile.avatar); // Обновляем превью аватара
   };
 
   const handleCancel = () => {

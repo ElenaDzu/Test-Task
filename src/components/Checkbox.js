@@ -23,7 +23,7 @@ function Checkbox({ onChange, defaultValue = "Private" }) {
   return (
     <>
       <p className="form__checkbox-text">Show your profile in Launchpad?</p>
-      <div className="form__user-preference">
+      <div className="form__checkbox-preference">
         <label className="form__checkbox">
           <input
             className="form__checkbox-input"

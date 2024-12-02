@@ -1,3 +1,7 @@
+.form__checkbox-preference {
+  display: flex;
+}
+
 .form__checkbox-text {
   margin: 0;
   font-size: 24px;
