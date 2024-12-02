@@ -24,12 +24,13 @@ const App = () => {
     return savedProfile;
   });
 
+  const [prevProfile, setPrevProfile] = useState(profile); // Сохраняем предыдущее состояние профиля
   const [tempProfile, setTempProfile] = useState(profile);
   const [errorMessages, setErrorMessages] = useState({});
   const [avatarPreview, setAvatarPreview] = useState(profile.avatar);
-  const preferenceRef = useRef(null); // Реф для отслеживания кликов вне блока предпочтений
+  const preferenceRef = useRef(null);
 
-  // Сохранение профиля в localStorage при обновлении состояния
+  // Сохранение профиля в localStorage
   useEffect(() => {
     localStorage.setItem("profile", JSON.stringify(profile));
   }, [profile]);
@@ -42,30 +43,27 @@ const App = () => {
         setTempProfile((prev) => {
           const updatedProfile = { ...prev };
           let isUpdated = false;
-  
+
           categories.forEach((category) => {
             const categoryData = updatedProfile[category] || {};
             Object.keys(categoryData).forEach((key) => {
-              // Удаляем теги, если они пустые или только что созданы
               if (categoryData[key].trim() === "") {
-                console.log(`Removing empty or newly created tag: ${key} from ${category}`);
                 delete updatedProfile[category][key];
                 isUpdated = true;
               }
             });
           });
-  
-          return isUpdated ? updatedProfile : prev; // Обновляем только при изменении
+
+          return isUpdated ? updatedProfile : prev;
         });
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
 
   const handleChange = (field, value, element = null) => {
     if (element) {
@@ -104,7 +102,6 @@ const App = () => {
   };
 
   const handlePreferenceAction = (action, category, key, value) => {
-    console.log("Preference Action:", { action, category, key, value });
     setTempProfile((prev) => {
       const categoryData = prev[category] || {};
       switch (action) {
@@ -148,13 +145,14 @@ const App = () => {
       console.error("Cannot save due to validation errors:", errorMessages);
       return;
     }
+    setPrevProfile(profile); // Сохраняем текущее состояние перед сохранением
     setProfile(tempProfile);
     setAvatarPreview(tempProfile.avatar);
   };
 
   const handleCancel = () => {
-    setTempProfile(profile);
-    setAvatarPreview(profile.avatar);
+    setTempProfile(prevProfile); // Откатываем изменения к предыдущему состоянию
+    setAvatarPreview(prevProfile.avatar);
   };
 
   const handleAvatarUpload = (event) => {

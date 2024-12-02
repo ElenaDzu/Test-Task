@@ -1,7 +1,71 @@
 import React from "react";
 
 function Preference({ profile, onPreferenceAction }) {
-  // Рендер тегов
+  // Рендер тегов для категорий
+  const renderLinks = (category) => {
+    const tags = profile[category] || {};
+    return Object.keys(tags).map((key) => {
+      const [siteName, link] = tags[key].split("|"); // Разделяем значения на `Site name` и `Link`
+
+      return (
+        <div key={key} className="form__link-item">
+          <input
+            className="form__link-name"
+            placeholder="Site name"
+            value={siteName || ""}
+            onChange={(e) => {
+              const newValue = `${e.target.value}|${link || ""}`;
+              onPreferenceAction("edit", category, key, newValue);
+            }}
+            onBlur={(e) => {
+              if (e.target.value.trim() === "" && !link) {
+                onPreferenceAction("remove", category, key); // Удаляем, если оба поля пустые
+              }
+            }}
+          />
+          <input
+            className="form__link-url"
+            placeholder="Link"
+            value={link || ""}
+            onChange={(e) => {
+              const newValue = `${siteName || ""}|${e.target.value}`;
+              onPreferenceAction("edit", category, key, newValue);
+            }}
+            onBlur={(e) => {
+              if (siteName.trim() === "" && e.target.value.trim() === "") {
+                onPreferenceAction("remove", category, key); // Удаляем, если оба поля пустые
+              }
+            }}
+          />
+          <button
+            type="button"
+            className="form__link-delete"
+            onClick={() => onPreferenceAction("remove", category, key)} // Удаление секции
+          >
+          </button>
+        </div>
+      );
+    });
+  };
+
+  // Универсальный рендер категорий
+  const renderCategory = (label, category) => (
+    <div className="form__user-preference">
+      <div className="form__interest-block">
+        <p className="form__label-preference">{label}</p>
+        {category === "links" ? renderLinks(category) : renderTags(category)}
+        <button
+          type="button"
+          className="form__addtag-button"
+          onClick={() => onPreferenceAction("add", category)}
+        >
+          &#43;
+        </button>
+      </div>
+    </div>
+  );
+
+  // Рендер тегов (для категорий `interests` и `potentialInterests`)
   const renderTags = (category) => {
     const tags = profile[category] || {};
     return Object.keys(tags).map((key) => (
@@ -15,37 +79,9 @@ function Preference({ profile, onPreferenceAction }) {
             onPreferenceAction("remove", category, key); // Удаляем пустой тег
           }
         }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            onPreferenceAction("remove", category, key); // Удаляем тег по нажатию Enter
-          }
-        }}
-        onClick={() => {
-          if (tags[key].trim() !== "") {
-            onPreferenceAction("remove", category, key); // Удаляем непустой тег при клике
-          }
-        }}
       />
     ));
   };
-
-  // Универсальный рендер категорий
-  const renderCategory = (label, category) => (
-    <div className="form__user-preference">
-      <div className="form__interest-block">
-        <p className="form__label-preference">{label}</p>
-        {renderTags(category)}
-        <button
-          type="button"
-          className="form__addtag-button"
-          onClick={() => onPreferenceAction("add", category)}
-        >
-          &#43;
-        </button>
-      </div>
-    </div>
-  );
 
   return (
     <>

@@ -45,7 +45,7 @@
     background-color: transparent;
   } 
 
-.form__dropdown-tagform {
+/* .form__dropdown-tagform {
   position: fixed;
   display: grid;
   width: 25%;
@@ -56,8 +56,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
+} */
+/* 
 .form__tag-input {
   display: block;
     all: unset;
@@ -72,21 +72,8 @@
     font-weight: 500;
     line-height: 20px;
     text-align: center;
-  }
-
-  .form__link-item  {
-
-  }
-
-
-  /* .form__user-preference:last-of-type  .form__interest-block {
-    font-family: Roboto;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 32.49px;    
-    text-align: left;
-    color: rgba(73, 83, 92, 1);
   } */
+
 
   .form__user-preference:last-of-type  .form__interest-block .form__tag-input{
     all: unset;
@@ -116,6 +103,12 @@
   .form__link-item {
     display: flex;
     width: 100%;
+  }
+
+  .form__link-delete {
+    background-image: url(/my-app/public/delete.png);
+    width: 34px;
+    height: 34px;
   }
   
   .form__savetag-button {
