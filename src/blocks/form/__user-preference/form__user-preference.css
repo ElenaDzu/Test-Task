@@ -1,62 +1,54 @@
 .form__user-preference {
   display: flex;
-  flex-direction: row; /* Элементы на одной строке */
-  align-items: center; /* Вертикальное выравнивание */
-  justify-content: space-between; /* Равномерное распределение заголовка и кнопки */
-  margin-bottom: 10px;
+  flex-direction: row;
 }
 
 .form__interest-block {
     display: flex;
     flex-wrap: wrap;
-
 }
 
 .form__label-preference {
-    display: grid;
+    display: flex;
     margin: 8px;
-    grid-auto-flow: row;
-    white-space: nowrap;
-    width: max-content;
     align-items: center;
     justify-content: center;
 }
 
 .form__addtag-button {
     all:unset;
+    padding: 8px;
     background-color: transparent;
     color: rgba(56, 136, 231, 1);
     width: 32px;
     height: 32px;
     display: flex;
     justify-content: center;
-    align-self: flex-start;
+    align-self: center;
     margin-left: 8px;
     font-size: 38px;
     cursor: pointer;
 }
 
+
   .form__tag {
-    display: grid;
-    width: max-content;
+    display: inline-block;
+    width: fit-content;
+    max-width: 116px;
     border: 1px solid rgba(73, 83, 92, 1);
     border-radius: 100px;
     padding: 5px 16px;
     margin: 8px;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-size: 24px;
     font-weight: 400;
     line-height: 32.49px;
     color: rgba(73, 83, 92, 1);
     background-color: transparent;
+    text-align: center;
+    width: fit-content;
   } 
-  
-  .form__links-container {
-    display: flex;
-    flex-direction: column; /* Элементы располагаются вертикально */
-    gap: 10px; 
-  }
-  
+
   .form__link-item {
     display: flex;
     align-items: center;
@@ -66,31 +58,25 @@
   .form__link-name,
   .form__link-url {
     flex: 1; 
+    width: 280px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 1);
+    font-family: Roboto, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32.49px;
+    text-align: left;
+    color: rgba(73, 83, 92, 1);
+    margin: 0 8px;
+  } 
   
-  .form__link-delete {
-    background: none;
-    border: none;
-    color: red;
-    font-size: 18px;
+   .form__link-delete {
+    all:unset;
+    background-image: url(/delete.png);
+    width: 25px;
+    height: 25px;
+    background-size: contain;
     cursor: pointer;
-  }
-  
-  .form__link-delete:hover {
-    color: darkred;
-  }
-  
-  
-  .form__interest-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  
-  .form__addtag-button:disabled {
-    color: gray;
-    cursor: not-allowed;
   }

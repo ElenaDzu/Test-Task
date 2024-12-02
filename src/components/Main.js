@@ -31,13 +31,10 @@ const Main = ({
 
           {/* Управление видимостью профиля */}
           <Checkbox
-            defaultValue={profile.visibility}
-            onChange={(field, value, element) => {
-              if (process.env.NODE_ENV === "development") {
-                console.log("Visibility updated in Main:", { field, value, element });
-              }
-              onChange(field, value, element);
-            }}
+          defaultValue={profile.visibility}
+          onChange={(field, value, element) => {
+          onChange(field, value, element);
+          }}
           />
 
           {/* Управление предпочтениями */}

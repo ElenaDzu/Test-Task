@@ -42,7 +42,6 @@ function Preference({ profile, onPreferenceAction }) {
             className="form__link-delete"
             onClick={() => onPreferenceAction("remove", category, key)} // Удаление секции
           >
-            🗑️
           </button>
         </div>
       );
