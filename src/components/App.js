@@ -24,18 +24,16 @@ const App = () => {
     return savedProfile;
   });
 
-  const [prevProfile, setPrevProfile] = useState(profile); // Сохраняем предыдущее состояние профиля
+  const [prevProfile, setPrevProfile] = useState(profile);
   const [tempProfile, setTempProfile] = useState(profile);
   const [errorMessages, setErrorMessages] = useState({});
   const [avatarPreview, setAvatarPreview] = useState(profile.avatar);
   const preferenceRef = useRef(null);
 
-  // Сохранение профиля в localStorage
   useEffect(() => {
     localStorage.setItem("profile", JSON.stringify(profile));
   }, [profile]);
 
-  // Удаление пустых тегов при клике вне блока предпочтений
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (preferenceRef.current && !preferenceRef.current.contains(event.target)) {
@@ -107,7 +105,7 @@ const App = () => {
 
       switch (action) {
         case "add": {
-          // Проверяем, есть ли пустой тег
+
           const hasEmptyTag = Object.values(categoryData).some((val) => val.trim() === "");
           if (hasEmptyTag) {
             console.warn("Cannot add a new tag while there is an empty tag.");
