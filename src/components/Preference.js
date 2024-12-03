@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useCallback, memo } from "react";
 
-function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
-  const renderLinks = (category) => {
+function Preference({ profile, onPreferenceAction }) {
+  // Мемоизированный рендер тегов (tags)
+  const renderTags = useCallback((category) => {
+    const tags = profile[category] || {};
+    return Object.keys(tags).map((key) => (
+      <div key={key} className="form__tag-item">
+        <input
+          className="form__tag"
+          placeholder="Enter tags"
+          maxLength="8"
+          pattern="^[\w\s,.]+$"
+          title="Tags must be letters, numbers, spaces, commas, or dots. Max length: 8."
+          value={tags[key]}
+          onChange={(e) => onPreferenceAction("edit", category, key, e.target.value)}
+          onBlur={(e) => {
+            if (e.target.value.trim() === "") {
+              onPreferenceAction("remove", category, key);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}
+          onClick={() => {
+            if (tags[key].trim() !== "") {
+              onPreferenceAction("remove", category, key);
+            }
+          }}
+        />
+      </div>
+    ));
+  }, [profile, onPreferenceAction]);
+
+  // Мемоизированный рендер ссылок (links)
+  const renderLinks = useCallback((category) => {
     const tags = profile[category] || {};
     return Object.keys(tags).map((key) => {
       const [siteName, link] = tags[key].split("|");
@@ -18,7 +52,6 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
               onPreferenceAction("edit", category, key, newValue);
             }}
           />
-          <span className="form__error">{errorMessages.surname}</span>
           <input
             className="form__link-url"
             placeholder="Link"
@@ -43,9 +76,10 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
         </div>
       );
     });
-  };
+  }, [profile, onPreferenceAction]);
 
-  const renderCategory = (label, category) => (
+  // Мемоизированный рендер категории (tags или links)
+  const renderCategory = useCallback((label, category) => (
     <div className="form__user-preference">
       <div className="form__interest-block">
         <p className="form__label-preference">{label}</p>
@@ -66,42 +100,7 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
         )}
       </div>
     </div>
-  );
-
-  const renderTags = (category) => {
-    const tags = profile[category] || {};
-    return Object.keys(tags).map((key) => (
-      <input
-        key={key}
-        className={`form__tag ${tags[key].trim() === "" ? "unsaved" : "saved"}`}
-        placeholder="Enter tags"
-        maxLength="8"
-        pattern="^[\w\s,.]+$"
-        title="Tags must be letters, numbers, spaces, commas, or dots. Max length: 8."
-        value={tags[key]}
-        onChange={(e) => onPreferenceAction("edit", category, key, e.target.value)}
-        onBlur={(e) => {
-          if (e.target.value.trim() === "") {
-            onPreferenceAction("remove", category, key);
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            if (e.target.value.trim() !== "") {
-              e.target.classList.remove("unsaved");
-              e.target.classList.add("saved");
-            }
-          }
-        }}
-        onClick={(e) => {
-          if (tags[key].trim() !== "" && e.target.classList.contains("saved")) {
-            onPreferenceAction("remove", category, key);
-          }
-        }}
-      />
-    ));
-  };
+  ), [profile, renderLinks, renderTags, onPreferenceAction]);
 
   return (
     <>
@@ -112,4 +111,4 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
   );
 }
 
-export default Preference;
+export default memo(Preference);

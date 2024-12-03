@@ -11,10 +11,7 @@ function Checkbox({ onChange, defaultValue = "Private" }) {
     const value = e.target.value;
     setVisibility(value);
     if (onChange) {
-      console.log("Checkbox вызывает onChange с:", { field: "visibility", value });
       onChange("visibility", value, e.target);
-    } else {
-      console.error("Ошибка: onChange не передан в Checkbox");
     }
   };
 
