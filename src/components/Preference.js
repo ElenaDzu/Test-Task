@@ -23,9 +23,6 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
             className="form__link-url"
             placeholder="Link"
             type="url"
-            maxLength="200"
-            
-            title="Please enter a valid URL (must start with http:// or https://)"
             value={link || ""}
             onChange={(e) => {
               const newValue = `${siteName || ""}|${e.target.value}`;
@@ -77,7 +74,7 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
       <input
         key={key}
         className={`form__tag ${tags[key].trim() === "" ? "unsaved" : "saved"}`} // Класс для сохранённого или несохранённого тега
-        placeholder="Enter tags (optional)"
+        placeholder="Enter tags"
         maxLength="8"
         pattern="^[\w\s,.]+$"
         title="Tags must be letters, numbers, spaces, commas, or dots. Max length: 8."

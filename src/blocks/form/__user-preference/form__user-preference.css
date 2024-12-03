@@ -49,6 +49,15 @@
     text-align: center;
     width: fit-content;
   } 
+  .form__tag::placeholder {
+    all:unset;
+    font-family: Roboto, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32.49px;
+    color: rgba(73, 83, 92, 1);
+    text-align: center;
+  } 
 
   .form__link-item {
     display: flex;
