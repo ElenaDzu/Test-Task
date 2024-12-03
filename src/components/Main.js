@@ -22,26 +22,17 @@ const Main = ({
         <Card />
       </section>
       <form className="form">
-        {/* Компонент для работы с аватаром */}
         <Avatar avatarPreview={avatarPreview} onAvatarUpload={onAvatarUpload} />
-
         <fieldset className="form__inputs">
-          {/* Поля ввода */}
           <Input profile={profile} onChange={onChange} errorMessages={errorMessages} />
-
-          {/* Управление видимостью профиля */}
           <Checkbox
-          defaultValue={profile.visibility}
-          onChange={(field, value, element) => {
-          onChange(field, value, element);
-          }}
+              defaultValue={profile.visibility}
+              onChange={(field, value, element) => {
+              onChange(field, value, element);
+              }}
           />
-
-          {/* Управление предпочтениями */}
           <Preference profile={profile} onPreferenceAction={onPreferenceAction} />
         </fieldset>
-
-        {/* Кнопки управления */}
         <OutcomeButton onSave={onSave} onCancel={onCancel} />
       </form>
     </main>

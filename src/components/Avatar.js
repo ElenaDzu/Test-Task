@@ -8,7 +8,7 @@ function Avatar({ onAvatarUpload, avatarPreview }) {
           type="file"
           id="imageInput"
           accept="image/*"
-          onChange={onAvatarUpload} // Передаём событие в обработчик
+          onChange={onAvatarUpload}
         />
         <div className="form__upload-photo">
           {avatarPreview ? (

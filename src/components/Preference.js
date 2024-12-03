@@ -4,7 +4,7 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
   const renderLinks = (category) => {
     const tags = profile[category] || {};
     return Object.keys(tags).map((key) => {
-      const [siteName, link] = tags[key].split("|"); // Разделяем значения на `Site name` и `Link`
+      const [siteName, link] = tags[key].split("|");
 
       return (
         <div key={key} className="form__link-item">
@@ -30,14 +30,14 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
             }}
             onBlur={(e) => {
               if (siteName.trim() === "" && e.target.value.trim() === "") {
-                onPreferenceAction("remove", category, key); // Удаляем, если оба поля пустые
+                onPreferenceAction("remove", category, key);
               }
             }}
           />
           <button
             type="button"
             className="form__link-delete"
-            onClick={() => onPreferenceAction("remove", category, key)} // Удаление секции
+            onClick={() => onPreferenceAction("remove", category, key)}
           >
           </button>
         </div>
@@ -50,7 +50,7 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
       <div className="form__interest-block">
         <p className="form__label-preference">{label}</p>
         {category === "links" ? renderLinks(category) : renderTags(category)}
-        {Object.keys(profile[category] || {}).length < 10 && ( // Проверяем количество тегов
+        {Object.keys(profile[category] || {}).length < 10 && (
           <button
             type="button"
             className="form__addtag-button"
@@ -73,30 +73,30 @@ function Preference({ profile, onPreferenceAction,  errorMessages = {} }) {
     return Object.keys(tags).map((key) => (
       <input
         key={key}
-        className={`form__tag ${tags[key].trim() === "" ? "unsaved" : "saved"}`} // Класс для сохранённого или несохранённого тега
+        className={`form__tag ${tags[key].trim() === "" ? "unsaved" : "saved"}`}
         placeholder="Enter tags"
         maxLength="8"
         pattern="^[\w\s,.]+$"
         title="Tags must be letters, numbers, spaces, commas, or dots. Max length: 8."
         value={tags[key]}
-        onChange={(e) => onPreferenceAction("edit", category, key, e.target.value)} // Позволяем редактировать значение
+        onChange={(e) => onPreferenceAction("edit", category, key, e.target.value)}
         onBlur={(e) => {
           if (e.target.value.trim() === "") {
-            onPreferenceAction("remove", category, key); // Удаляем, если поле пустое и потеряло фокус
+            onPreferenceAction("remove", category, key);
           }
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            e.preventDefault(); // Останавливаем стандартное поведение Enter
+            e.preventDefault();
             if (e.target.value.trim() !== "") {
-              e.target.classList.remove("unsaved"); // Снимаем метку несохранённого тега
-              e.target.classList.add("saved"); // Добавляем метку сохранённого тега
+              e.target.classList.remove("unsaved");
+              e.target.classList.add("saved");
             }
           }
         }}
         onClick={(e) => {
           if (tags[key].trim() !== "" && e.target.classList.contains("saved")) {
-            onPreferenceAction("remove", category, key); // Удаляем, если тег сохранён и на него кликнули
+            onPreferenceAction("remove", category, key);
           }
         }}
       />
