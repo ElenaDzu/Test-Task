@@ -31,7 +31,7 @@ const Main = ({
               onChange(field, value, element);
               }}
           />
-          <Preference profile={profile} onPreferenceAction={onPreferenceAction} />
+          <Preference profile={profile} onPreferenceAction={onPreferenceAction} errorMessages={errorMessages}/>
         </fieldset>
         <OutcomeButton onSave={onSave} onCancel={onCancel} />
       </form>
