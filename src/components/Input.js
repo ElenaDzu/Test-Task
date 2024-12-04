@@ -86,18 +86,19 @@ function Input({ profile = {}, errorMessages = {}, onChange }) {
 
       <div>
         <input
-          className="form__input"
-          id="email"
-          type="email"
-          placeholder="Email"
-          value={profile.email || ""}
-          maxLength="200"
-          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-          title="Please enter a valid email."
-          onInput={(e) => onChange("email", e.target.value, e.target)}
+        className="form__input"
+        id="email"
+        type="email"
+        placeholder="Email"
+        value={profile.email || ""}
+        maxLength="200"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+        title="Please enter a valid email."
+        onInput={(e) => onChange("email", e.target.value, e.target)}
         />
         <span className="form__error">{errorMessages.email}</span>
       </div>
+
 
       <div>
         <input

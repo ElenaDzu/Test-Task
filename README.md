@@ -53,7 +53,9 @@
 
 Инструменты: Node.js(v.16), npm.
 
-Запуск: npm start
+Запуск: 
+cd my-app 
+npm start
 
 
 .page {
