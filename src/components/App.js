@@ -92,14 +92,15 @@ const App = () => {
     const handlePreferenceAction = useCallback((action, category, key, value) => {
       setTempProfile((prev) => {
         const categoryData = prev[category] || {};
-  
+    
         switch (action) {
           case "add": {
             const hasEmptyTag = Object.values(categoryData).some((val) => val.trim() === "");
             if (hasEmptyTag) {
+              alert("Please fill in the empty tag before adding a new one.");
               return prev;
             }
-  
+    
             const keys = Object.keys(categoryData);
             const newKey = `${category}-${keys.length + 1}`;
             return {
@@ -108,32 +109,49 @@ const App = () => {
             };
           }
           case "edit":
-            return { ...prev, [category]: { ...categoryData, [key]: value } };
+            return {
+              ...prev,
+              [category]: { ...categoryData, [key]: value },
+            };
           case "remove": {
             const { [key]: _, ...remainingTags } = categoryData;
-            return { ...prev, [category]: remainingTags };
+            return {
+              ...prev,
+              [category]: remainingTags,
+            };
           }
           default:
             return prev;
         }
       });
     }, []);
+    
   
     // Сохранение профиля
     const handleSave = useCallback(() => {
-      const hasEmptyTags = Object.keys(tempProfile).some((category) => {
-        const data = tempProfile[category];
-        if (typeof data === "object") {
-          return Object.values(data).some((value) => value.trim() === "");
+      // Проверяем наличие ошибок валидации в инпутах
+      if (Object.keys(errorMessages).length > 0) {
+        alert("Please fix the validation errors before saving.");
+        return;
+      }
+    
+      // Проверяем наличие невалидных тегов (пустые или некорректные)
+      const invalidTags = Object.keys(tempProfile).some((category) => {
+        if (["interests", "potentialInterests", "links"].includes(category)) {
+          const tags = tempProfile[category];
+          if (tags) {
+            return Object.values(tags).some((tag) => !tag || tag.trim() === "");
+          }
         }
         return false;
       });
-  
-      if (hasEmptyTags) {
-        alert("Please fill in all tags or remove empty ones before saving.");
+    
+      if (invalidTags) {
+        alert("Please ensure all tags are valid before saving.");
         return;
       }
-  
+    
+      // Очистка профиля от пустых данных
       const cleanedProfile = { ...tempProfile };
       Object.keys(cleanedProfile).forEach((category) => {
         if (typeof cleanedProfile[category] === "object") {
@@ -146,11 +164,13 @@ const App = () => {
           cleanedProfile[category] = cleanedCategory;
         }
       });
-  
+    
       setPrevProfile(profile);
       setProfile(cleanedProfile);
       setAvatarPreview(cleanedProfile.avatar);
-    }, [tempProfile, profile]);
+    }, [tempProfile, profile, errorMessages]);
+    
+    
   
     // Отмена изменений
     const handleCancel = useCallback(() => {
