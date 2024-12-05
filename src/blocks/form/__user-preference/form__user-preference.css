@@ -30,12 +30,8 @@
     cursor: pointer;
 }
 
-
   .form__tag {
-    all:unset;
-    display: inline-block;
-    width: fit-content;
-    max-width: 116px;
+    min-width: 3ch;
     border: 1px solid rgba(73, 83, 92, 1);
     border-radius: 100px;
     padding: 5px 16px;
@@ -47,7 +43,7 @@
     color: rgba(73, 83, 92, 1);
     background-color: transparent;
     text-align: center;
-    width: fit-content;
+    
   } 
   .form__tag::placeholder {
     all:unset;

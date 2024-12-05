@@ -9,8 +9,9 @@ function Preference({ profile, onPreferenceAction }) {
         <div key={key} className="form__tag-item">
           <input
             className="form__tag"
-            placeholder="Enter tags"
-            maxLength="8"
+            placeholder="tag"
+            size={tags[key]?.length || 1} 
+            maxLength="30"
             pattern="^[\w\s,.]+$"
             title="Tags must be letters, numbers, spaces, commas, or dots. Max length: 8."
             value={tags[key]}
